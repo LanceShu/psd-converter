@@ -13,3 +13,6 @@ dependencies = [
 
 [project.scripts]
 psd-converter-mcp = "psd_converter_mcp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
