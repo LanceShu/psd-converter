@@ -1,11 +1,18 @@
 [project]
-name = "desertrose"
+name = "psd-converter"
 version = "0.1.0"
-description = "Add your description here"
+description = "PSD to UI JSON converter with MCP tools"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "pillow>=12.1.1",
     "psd-tools>=1.14.0",
     "scipy>=1.17.1",
+    "fastmcp>=0.1.0",
 ]
+
+[project.scripts]
+psd-converter-mcp = "psd_converter_mcp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
