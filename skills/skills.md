@@ -124,6 +124,127 @@ Props 不应该包含：
   - Layer type is "text" -> use `<h1>`-`<h6>`, `<p>`, or `<span>` based on size
 - **Retina/Asset Logic**: Ensure the `src` in `<img>` matches the `imagePath` from the tool exactly.
 
+### 11.2 特殊交互组件
+
+PSD 中的某些组件需要交互逻辑支持，单纯还原视觉不够：
+
+#### 1. OTP/验证码输入框
+- **PSD特征**：多个独立的方形/圆形格子 + 中间显示数字
+- **实现**：隐藏真实input，视觉用div模拟，点击聚焦input
+```html
+<div class="code-wrapper" @click="focusInput">
+  <div class="code-box"><span>{{ code[0] }}</span></div>
+  <div class="code-box"><span>{{ code[1] }}</span></div>
+  <input class="hidden-input" v-model="codeString" />
+</div>
+```
+
+#### 2. 数量选择器 (Quantity Selector)
+- **PSD特征**：一个数字显示框 + 左右两侧的 `-` 和 `+` 按钮
+- **实现**：
+```html
+<div class="quantity-selector">
+  <button @click="decrease">-</button>
+  <span class="quantity-value">{{ quantity }}</span>
+  <button @click="increase">+</button>
+</div>
+```
+
+#### 3. 星级评分 (Star Rating)
+- **PSD特征**：一排星星图标，可能有填充/未填充状态
+- **实现**：
+```html
+<span
+  v-for="i in 5"
+  :key="i"
+  :class="{ 'star-filled': i <= rating }"
+  @click="setRating(i)"
+>★</span>
+```
+
+#### 4. 滑块/进度条 (Slider/Range)
+- **PSD特征**：带有自定义轨道和滑块的横条
+- **实现**：使用 `<input type="range">` 配合自定义样式
+```html
+<input type="range" min="0" max="100" v-model="value" class="custom-slider" />
+```
+
+#### 5. 下拉选择器 (Dropdown Select)
+- **PSD特征**：类似输入框的组件 + 右侧下拉箭头
+- **实现**：使用 `v-show` 控制下拉选项显示
+```html
+<div class="dropdown" @click="isOpen = !isOpen">
+  <span>{{ selected }}</span>
+  <ul v-show="isOpen" class="dropdown-options">
+    <li v-for="option in options" @click.stop="select(option)">
+      {{ option }}
+    </li>
+  </ul>
+</div>
+```
+
+#### 6. 步进器/分步表单 (Stepper)
+- **PSD特征**：多个步骤圆点 + 连接线 + 上一步/下一步按钮
+- **实现**：当前步骤索引控制显示内容，按钮切换步骤
+
+#### 7. 标签选择器 (Tag/Chip Selector)
+- **PSD特征**：多个可点击的标签/胶囊按钮，选中状态有颜色变化
+- **实现**：
+```html
+<button
+  v-for="tag in tags"
+  :key="tag.id"
+  :class="{ 'tag-active': tag.selected }"
+  @click="toggleTag(tag)"
+>
+  {{ tag.name }}
+</button>
+```
+
+#### 8. 倒计时按钮 (Countdown Button)
+- **PSD特征**：按钮上显示倒计时数字（如"重新获取(60s)"）
+- **实现**：
+```js
+const startCountdown = () => {
+  countdown.value = 60
+  setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) clearInterval(timer)
+  }, 1000)
+}
+```
+
+#### 9. 密码强度指示器 (Password Strength)
+- **PSD特征**：多条横条或单个进度条，颜色随密码强度变化
+- **实现**：根据密码复杂度计算强度等级
+
+#### 10. 复选框/开关 (Checkbox/Switch)
+- **PSD特征**：自定义样式的方形复选框或圆形开关
+- **实现**：
+```html
+<div
+  class="custom-checkbox"
+  :class="{ 'checked': isChecked }"
+  @click="isChecked = !isChecked"
+>
+  <span v-show="isChecked">✓</span>
+</div>
+```
+
+#### 11. 折叠面板 (Accordion)
+- **PSD特征**：标题行 + 隐藏的内容区域，点击展开/收起
+- **实现**：
+```html
+<div v-for="item in items" :key="item.id">
+  <div class="accordion-header" @click="item.open = !item.open">
+    {{ item.title }}
+  </div>
+  <div v-show="item.open" class="accordion-content">
+    {{ item.content }}
+  </div>
+</div>
+```
+
 ## 12. CSS & Formatting Strategy
 
 - **Scoped Styles**: All styles must be scoped to the component.
