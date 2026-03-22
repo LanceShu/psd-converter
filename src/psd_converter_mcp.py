@@ -1,26 +1,7 @@
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#   "psd-tools",
-#   "Pillow",
-#   "scipy",
-#   "fastmcp>=0.1.0",
-# ]
-# ///
-
 """
 PSD Converter MCP Module
 
 MCP tools for parsing PSD files and exporting assets.
-Configured via:
-{
-    "mcpServers": {
-        "psd-converter": {
-            "command": "python",
-            "args": ["-m", "psd_converter_mcp"]
-        }
-    }
-}
 """
 
 import os
@@ -30,7 +11,7 @@ from typing import Optional
 from fastmcp import FastMCP
 
 # 复用现有解析器
-from src.psd_ui_converter import PSDParser
+from psd_ui_converter import PSDParser
 
 # 初始化 FastMCP
 mcp = FastMCP("psd-converter")
