@@ -30,7 +30,7 @@ from typing import Optional
 from fastmcp import FastMCP
 
 # 复用现有解析器
-from psd_ui_converter import PSDParser
+from src.psd_ui_converter import PSDParser
 
 # 初始化 FastMCP
 mcp = FastMCP("psd-converter")
