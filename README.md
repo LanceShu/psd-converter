@@ -7,7 +7,7 @@ A powerful PSD (Photoshop Document) to UI JSON converter powered by MCP (Model C
 ### Install
 
 ```bash
-pip install psd-converter
+ uvx --from psd-converter psd-converter-mcp
 ```
 
 ### Claude Code Integration
@@ -19,7 +19,11 @@ Add to your `~/.claude/settings.json` or project `.claude.json`:
   "mcpServers": {
     "psd-converter": {
       "command": "uvx",
-      "args": ["psd-converter"]
+      "args": [
+        "--from",
+        "psd-converter",
+        "psd-converter-mcp"
+      ]
     }
   }
 }
