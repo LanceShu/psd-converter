@@ -2,26 +2,28 @@
 
 A powerful PSD (Photoshop Document) to UI JSON converter powered by MCP (Model Context Protocol). Extracts structured metadata from PSD files and converts them into semantic, production-ready UI component definitions.
 
-## Overview
+## Quick Start
 
-This tool parses PSD files and outputs a well-organized JSON structure containing:
+### Install
 
-- **Layer hierarchy** — Nested layer tree with names, types, and visibility
-- **Layout inference** — Flexbox layout properties (direction, alignment, gap, padding)
-- **CSS styles** — Colors, gradients, shadows, borders, typography
-- **Design tokens** — Normalized colors, font sizes, and font families
-- **Image assets** — Exported PNG assets from smart objects and marked layers
+```bash
+pip install psd-converter
+```
 
-## Features
+### Claude Code Integration
 
-- **Smart layer parsing** — Supports text, groups, smart objects, shapes, and pixel layers
-- **Gradient extraction** — Linear, radial, and conic gradients with accurate stop positions
-- **Shadow effects** — Drop shadows and inner shadows with blend modes
-- **Layout inference** — Automatically detects flexbox direction, alignment, and spacing
-- **Mask support** — Clipping masks and layer masks with export capability
-- **Blend modes** — Full support for PSD blend modes (multiply, screen, overlay, etc.)
-- **Design token collection** — Aggregates and normalizes design system values
-- **MCP integration** — Works as MCP tools for AI-assisted workflows
+Add to your `~/.claude/settings.json` or project `.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "psd-converter": {
+      "command": "uvx",
+      "args": ["psd-converter"]
+    }
+  }
+}
+```
 
 ## MCP Tools
 
@@ -85,6 +87,17 @@ python -m src.psd_converter.psd_ui_converter \
   -oj ./output/limitedTimeOffer_structure.json
 ```
 
+## Features
+
+- **Smart layer parsing** — Supports text, groups, smart objects, shapes, and pixel layers
+- **Gradient extraction** — Linear, radial, and conic gradients with accurate stop positions
+- **Shadow effects** — Drop shadows and inner shadows with blend modes
+- **Layout inference** — Automatically detects flexbox direction, alignment, and spacing
+- **Mask support** — Clipping masks and layer masks with export capability
+- **Blend modes** — Full support for PSD blend modes (multiply, screen, overlay, etc.)
+- **Design token collection** — Aggregates and normalizes design system values
+- **MCP integration** — Works as MCP tools for AI-assisted workflows
+
 ## Output Structure
 
 ```json
@@ -137,18 +150,6 @@ Use these naming conventions in your PSD to guide the parser:
 | Marker | Behavior |
 |--------|----------|
 | `@smart`, `@so` | Recursively parse nested layers |
-
-## Running as MCP Server
-
-To run this as an MCP server for AI integration:
-
-```bash
-# Using FastMCP
-fastmcp run src.psd_converter.psd_converter_mcp:main
-
-# Or directly
-python -m src.psd_converter.psd_converter_mcp
-```
 
 ## Integration
 
